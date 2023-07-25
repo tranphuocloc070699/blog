@@ -1,0 +1,24 @@
+
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "blog-server",
+      "image": "loctran070699/server:latest",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 4000
+        }
+      ],
+      "environment": [
+        {
+          "name": "SPRING_DATASOURCE_URL",
+          "value": "jdbc:postgresql://awseb-e-cdtfh4r8a7-stack-awsebrdsdatabase-krkapwot7xbg.cyjvloigwccm.ca-central-1.rds.amazonaws.com:5432/blog"
+        }
+      ]
+    }
+  ]
+}
