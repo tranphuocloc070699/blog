@@ -40,6 +40,6 @@ jobs:
           java-version: '17'
           cache: 'maven'
       - name: Install Maven
-        run: sudo apt-get -y install maven
+        run: apt-get -y install maven
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
