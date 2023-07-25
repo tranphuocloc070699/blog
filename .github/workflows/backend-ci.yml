@@ -9,7 +9,8 @@ on:
 
 jobs:
   build:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
+    container: ubuntu
     services:
       # Label used to access the service container
       postgres:
@@ -20,13 +21,14 @@ jobs:
           POSTGRES_USER: loctran
           POSTGRES_PASSWORD: Loc123456
           POSTGRES_DB: blog
+          POSTGRES_PORT: 5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          
+
     defaults:
       run:
         working-directory: ./server
@@ -37,5 +39,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
+      - name: Install Maven
+        run: apt-get -y install maven
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
