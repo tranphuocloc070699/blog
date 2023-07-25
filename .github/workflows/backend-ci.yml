@@ -20,6 +20,7 @@ jobs:
           POSTGRES_USER: loctran
           POSTGRES_PASSWORD: Loc123456
           POSTGRES_DB: blog
+          POSTGRES_PORT: 5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
