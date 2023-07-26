@@ -50,7 +50,7 @@ jobs:
       - name: Create blog database
         env:
           PGPASSWORD: Loc123456
-        run: psql -h localhost -U loctran -d postgres -p 5432 -c "CREATE DATABASE blog;"
+        run: psql -h localhost -U loctran -d blog -p 5432
 
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
