@@ -203,7 +203,7 @@
 						<image>docker.io/${docker.username}/${project.artifactId}:${project.version}</image>
 						<auth>
 							<username>${docker.username}</username>
-							<username>${docker.password}</username>
+							<password>${docker.password}</password>
 						</auth>
 						<tags>
 							<tag>latest</tag>
