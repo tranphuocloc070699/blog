@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ubuntu
+    container: node
     services:
       # Label used to access the service container
       postgres:
@@ -45,5 +45,7 @@ jobs:
       - uses: stCarolas/setup-maven@v.4.5
         with:
           maven-version: 3.8.2
+      - name: Test DB Work
+        run: node client.js
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
