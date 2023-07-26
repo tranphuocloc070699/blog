@@ -10,26 +10,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: ubuntu
     services:
-      # Label used to access the service container
       postgres:
-        # Docker Hub image
         image: postgres
-        # Provide the password for postgres
         env:
-#          POSTGRES_HOST: localhost
+          POSTGRES_HOST: postgres
           POSTGRES_USER: loctran
           POSTGRES_PASSWORD: Loc123456
           POSTGRES_DB: blog
           POSTGRES_PORT: 5432
           POSTGRES_HOST_AUTH_METHOD: password
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
         ports:
           - 5432:5432
           
@@ -46,9 +41,6 @@ jobs:
       - uses: stCarolas/setup-maven@v.4.5
         with:
           maven-version: 3.8.2
-
-      - name: Check if PostgreSQL database can connect
-        run: status_code=$(pg_isready) if [ $status_code -ne 0 ]; then echo "PostgreSQL database is not ready" exit 1 fi
 
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
