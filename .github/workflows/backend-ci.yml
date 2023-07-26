@@ -9,23 +9,24 @@ on:
 
 jobs:
   build:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     services:
-      # Label used to access the service container
       postgres:
-        # Docker Hub image
-        image: postgres:15.3
-        # Provide the password for postgres
+        image: postgres
         env:
+          POSTGRES_HOST: localhost
           POSTGRES_USER: loctran
           POSTGRES_PASSWORD: Loc123456
           POSTGRES_DB: blog
-        # Set health checks to wait until postgres has started
+          POSTGRES_PORT: 5432
+          POSTGRES_HOST_AUTH_METHOD: password
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
           
     defaults:
       run:
@@ -37,5 +38,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
+      - uses: stCarolas/setup-maven@v.4.5
+        with:
+          maven-version: 3.8.2
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
