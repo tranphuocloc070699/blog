@@ -23,7 +23,6 @@ jobs:
           POSTGRES_PASSWORD: Loc123456
           POSTGRES_DB: blog
           POSTGRES_PORT: 5432
-          POSTGRES_HOST_AUTH_METHOD: password
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -43,8 +42,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
-      - uses: stCarolas/setup-maven@v.4.5
-        with:
-          maven-version: 3.8.2
+#      - uses: stCarolas/setup-maven@v.4.5
+#        with:
+#          maven-version: 3.8.2
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
