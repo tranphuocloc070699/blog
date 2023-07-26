@@ -12,7 +12,7 @@ spring:
   main:
     web-application-type: servlet
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/blog
+    url: jdbc:postgresql:postgres:5432/blog
     username: loctran
     password: Loc123456
 
