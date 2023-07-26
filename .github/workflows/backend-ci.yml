@@ -48,6 +48,8 @@ jobs:
 
       # Create the blog database
       - name: Create blog database
+        env:
+          PGPASSWORD: ${{ env.POSTGRES_PASSWORD }}
         run: psql -h localhost -U loctran -d postgres -p 5432 -c "CREATE DATABASE blog;"
 
       - name: Build and run Unit/Integration Tests with Maven
