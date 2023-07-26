@@ -40,7 +40,7 @@ public class SecurityConfiguration {
     httpSecurity
             .authorizeHttpRequests(
                     auth -> auth
-                            .requestMatchers("/api/v1/auth/**","/api/v1/story/**")
+                            .requestMatchers("/api/v1/auth/**","/api/v1/story/**","/ping")
                             .permitAll()
                             .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
                             .requestMatchers("/api/v1/user/**").hasRole(USER.name())

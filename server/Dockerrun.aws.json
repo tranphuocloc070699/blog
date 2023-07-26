@@ -3,8 +3,8 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "blog-server",
-      "image": "loctran070699/server:latest",
+      "name": "blog-api",
+      "image": "loctran070699/blog-api:latest",
       "essential": true,
       "memory": 512,
       "portMappings": [
