@@ -42,4 +42,4 @@ jobs:
         with:
           maven-version: 3.8.2
       - name: Build and run Unit/Integration Tests with Maven
-        run: mvn -ntp -B test
+        run: mvn -ntp -B verify
