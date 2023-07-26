@@ -42,5 +42,13 @@ jobs:
         with:
           maven-version: 3.8.2
 
+      # Install PostgreSQL client
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      # Create the blog database
+      - name: Create blog database
+        run: psql -h localhost -U loctran -d postgres -p 5432 -c "CREATE DATABASE blog;"
+
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
