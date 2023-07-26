@@ -46,8 +46,9 @@ jobs:
       - uses: stCarolas/setup-maven@v.4.5
         with:
           maven-version: 3.8.2
-      - name: Check Postgres connectivity
-        run: psql -h localhost -U loctran -d blog -p 5432 -c "SELECT 1;"
+
+      - name: Check if PostgreSQL database can connect
+        run: status_code=$(pg_isready) if [ $status_code -ne 0 ]; then echo "PostgreSQL database is not ready" exit 1 fi
 
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
