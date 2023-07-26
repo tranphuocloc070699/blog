@@ -4,7 +4,7 @@
   "containerDefinitions": [
     {
       "name": "blog-api",
-      "image": "loctran070699/blog-api:latest",
+      "image": "loctran070699/blog-api:26.07.2023.09.16.",
       "essential": true,
       "memory": 512,
       "portMappings": [
