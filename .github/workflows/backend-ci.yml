@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: node
+    container: ubuntu
     services:
       # Label used to access the service container
       postgres:
@@ -23,6 +23,7 @@ jobs:
           POSTGRES_PASSWORD: Loc123456
           POSTGRES_DB: blog
           POSTGRES_PORT: 5432
+          POSTGRES_HOST_AUTH_METHOD: password
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -45,7 +46,5 @@ jobs:
       - uses: stCarolas/setup-maven@v.4.5
         with:
           maven-version: 3.8.2
-      - name: Test DB Work
-        run: node client.js
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
