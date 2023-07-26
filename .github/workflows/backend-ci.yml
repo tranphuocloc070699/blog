@@ -41,16 +41,10 @@ jobs:
       - uses: stCarolas/setup-maven@v.4.5
         with:
           maven-version: 3.8.2
-
-      # Install PostgreSQL client
-      - name: Install PostgreSQL client
-        run: sudo apt-get update && sudo apt-get install -y postgresql-client
-
-      # Create the blog database
-      - name: Create blog database
-        env:
-          PGPASSWORD: Loc123456
-        run: psql -h localhost -U loctran -d blog -p 5432
-
+      - name: Login to docker
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
