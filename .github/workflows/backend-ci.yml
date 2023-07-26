@@ -44,3 +44,9 @@ jobs:
           maven-version: 3.8.2
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
+      - name: Archive Surefire Reports
+        if: always() # This ensures the step runs even if there were test failures.
+        uses: actions/upload-artifact@v2
+        with:
+          name: surefire-reports
+          path: path/to/your/project/target/surefire-reports
