@@ -7,7 +7,6 @@ server:
     whitelabel:
       enabled: false
     path: /error
-
 spring:
   main:
     web-application-type: servlet
