@@ -60,12 +60,13 @@ jobs:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-              Status: SUCCESS ✅
-              Actor: ${{ github.actor }}
-              Branch: ${{ steps.extract_branch.outputs.branch }}
-              Repository: ${{ github.repository }}
+              <h2 style="color:green">SUCCESS ✅</h2>
+              Actor: <strong>${{ github.actor }}</strong>
+              Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
+              Repository: <strong>${{ github.repository }}</strong>
               <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}">Access Commit</a>
           format: html
+          disable_web_page_preview: false
 
       - name: Send Telegram message on failure
         if: ${{ steps.check-status.outcome == 'failure' }}
