@@ -43,17 +43,29 @@ jobs:
           maven-version: 3.8.2
 
       - name: Build and run Unit/Integration Tests with Maven
+        id: check-status
         run: mvn -ntp -B verify
 
-      - name: send telegram message on push
+      - name: Send Telegram message on success
+        if: ${{ steps.check-status.outcome == 'success' }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-            ${{ github.actor }} created commit:
-            Commit message: ${{ github.event.commits[0].message }}
-            
-            Repository: ${{ github.repository }}
-            
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+              ${{ github.actor }} created commit:success ✅
+              Commit message: ${{ github.event.commits[0].message }}
+              Repository: ${{ github.repository }}
+              See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+      - name: Send Telegram message on failure
+        if: ${{ steps.check-status.outcome == 'failure' }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit: fail ❌
+              Commit message: ${{ github.event.commits[0].message }}     
+              Repository: ${{ github.repository }}         
+              See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
