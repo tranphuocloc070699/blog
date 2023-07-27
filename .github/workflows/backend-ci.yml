@@ -41,8 +41,10 @@ jobs:
       - uses: stCarolas/setup-maven@v.4.5
         with:
           maven-version: 3.8.2
+
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
+
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:
