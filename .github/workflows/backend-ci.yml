@@ -51,6 +51,11 @@ jobs:
         id: check-status
         continue-on-error: true
         run: mvn -ntp -B verify
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-logs
+          path: server/target/surefire-reports/
 
 
       - name: Send Telegram message on success
@@ -60,22 +65,30 @@ jobs:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-              <strong>SUCCESS ✅</strong>
+              <strong style="color:green">SUCCESS ✅</strong>
+            
               Actor: <strong>${{ github.actor }}</strong>
               Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
               Repository: <strong>${{ github.repository }}</strong>
-              <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}">Access Commit</a>
+            
+              <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
           format: html
           disable_web_page_preview: false
 
-      - name: Send Telegram message on failure
+      - name: Send Telegram message on fail
         if: ${{ steps.check-status.outcome == 'failure' }}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-              status: fail ❌
-              ${{ github.actor }} created commit at branch [${{ steps.extract_branch.outputs.branch }}]
-              Repository: ${{ github.repository }}         
-              See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+              <strong style="color:red">FAILURE ❌</strong>
+        
+              Actor: <strong>${{ github.actor }}</strong>
+              Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
+              Repository: <strong>${{ github.repository }}</strong>
+        
+              <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
+          document:
+          format: html
+          disable_web_page_preview: false
