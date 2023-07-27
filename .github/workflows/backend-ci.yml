@@ -32,8 +32,9 @@ jobs:
         working-directory: ./server
 
     steps:
-      - name: Show Secrets
-        run: echo ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
+      - name: Echo the Secret
+        run: |
+          echo "The value of the secret TELEGRAM_BLOG_CHANEL_ID is: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}"
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:
