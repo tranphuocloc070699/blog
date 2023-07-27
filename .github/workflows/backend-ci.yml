@@ -55,8 +55,8 @@ jobs:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-              ${{ github.actor }} created commit:success ✅
-              Commit message: ${{ github.event.commits[0].message }}
+              status:success ✅
+              ${{ github.actor }} created commit at branch [${GITHUB_REF#refs/heads/}]
               Repository: ${{ github.repository }}
               See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
@@ -67,7 +67,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-            ${{ github.actor }} created commit: fail ❌
-              Commit message: ${{ github.event.commits[0].message }}     
+              status: fail ❌
+              ${{ github.actor }} created commit at branch [${GITHUB_REF#refs/heads/}]
               Repository: ${{ github.repository }}         
               See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}

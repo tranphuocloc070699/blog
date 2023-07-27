@@ -81,8 +81,8 @@ class AuthIT {
             .body(Mono.just(requestCustomer), User.class)
             .exchange()
             .expectStatus()
-            .isOk();
-//            .isBadRequest();
+//            .isOk();
+            .isBadRequest();
   }
   
   // === SignUp With Valid Arguments ===
