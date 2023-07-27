@@ -64,7 +64,8 @@ jobs:
               Actor: ${{ github.actor }}
               Branch: ${{ steps.extract_branch.outputs.branch }}
               Repository: ${{ github.repository }}
-              [Access commit](https://github.com/${{ github.repository }}/commit/${{github.sha}})
+              <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}">Access Commit</a>
+          format: html
 
       - name: Send Telegram message on failure
         if: ${{ steps.check-status.outcome == 'failure' }}
