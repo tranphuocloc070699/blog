@@ -52,7 +52,6 @@ jobs:
         continue-on-error: true
         run: mvn -ntp -B verify
 
-
       - name: Send Telegram message on success
         if: ${{ steps.check-status.outcome == 'success' }}
         uses: appleboy/telegram-action@master
@@ -84,6 +83,5 @@ jobs:
               Repository: <strong>${{ github.repository }}</strong>
         
               <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
-          document:
           format: html
           disable_web_page_preview: false
