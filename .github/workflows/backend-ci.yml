@@ -60,10 +60,11 @@ jobs:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-              status:success ✅
-              ${{ github.actor }} created commit at branch [${{ steps.extract_branch.outputs.branch }}]
+              Status: SUCCESS ✅
+              Actor: ${{ github.actor }}
+              Branch: ${{ steps.extract_branch.outputs.branch }}
               Repository: ${{ github.repository }}
-              See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+              [Access commit](https://github.com/${{ github.repository }}/commit/${{github.sha}})
 
       - name: Send Telegram message on failure
         if: ${{ steps.check-status.outcome == 'failure' }}
