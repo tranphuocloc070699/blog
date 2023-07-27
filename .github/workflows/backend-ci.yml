@@ -59,15 +59,14 @@ jobs:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-              <strong style="color:green">SUCCESS ✅</strong>
-            
+              <strong >SUCCESS ✅</strong>
               Actor: <strong>${{ github.actor }}</strong>
               Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
               Repository: <strong>${{ github.repository }}</strong>
             
               <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
           format: html
-          disable_web_page_preview: false
+          disable_web_page_preview: true
 
       - name: Send Telegram message on fail
         if: ${{ steps.check-status.outcome == 'failure' }}
@@ -76,12 +75,11 @@ jobs:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-              <strong style="color:red">FAILURE ❌</strong>
-        
+              <strong >FAILURE ❌</strong>
               Actor: <strong>${{ github.actor }}</strong>
               Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
               Repository: <strong>${{ github.repository }}</strong>
         
               <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
           format: html
-          disable_web_page_preview: false
+          disable_web_page_preview: true
