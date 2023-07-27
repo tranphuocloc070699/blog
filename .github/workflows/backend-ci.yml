@@ -51,11 +51,6 @@ jobs:
         id: check-status
         continue-on-error: true
         run: mvn -ntp -B verify
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-logs
-          path: server/target/surefire-reports/
 
 
       - name: Send Telegram message on success
