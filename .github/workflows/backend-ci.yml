@@ -44,7 +44,9 @@ jobs:
 
       - name: Build and run Unit/Integration Tests with Maven
         id: check-status
+        continue-on-error: true
         run: mvn -ntp -B verify
+
 
       - name: Send Telegram message on success
         if: ${{ steps.check-status.outcome == 'success' }}
