@@ -6,8 +6,6 @@ on:
       - main
     paths:
       - server/**
-
-
 jobs:
   build:
     runs-on: ubuntu-latest
