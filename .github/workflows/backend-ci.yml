@@ -43,9 +43,14 @@ jobs:
           maven-version: 3.8.2
       - name: Build and run Unit/Integration Tests with Maven
         run: mvn -ntp -B verify
-      - name: Echo the Secret
+      - name: Set the secret value as an environment variable
+        run: echo "SECRET_VALUE=${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}" >> $GITHUB_ENV
+
+      - name: Display the real value of the secret
         run: |
-          echo "The value of the secret TELEGRAM_BLOG_CHANEL_ID: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}"
+          echo "The real value of the secret is: $SECRET_VALUE"
+        env:
+          SECRET_VALUE: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
       - name: send telegram message on push
         uses: appleboy/telegram-action@master
         with:
