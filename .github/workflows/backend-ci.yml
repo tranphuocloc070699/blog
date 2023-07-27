@@ -60,7 +60,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           message: |
-              <h2 style="color:green">SUCCESS ✅</h2>
+              <strong>SUCCESS ✅</strong>
               Actor: <strong>${{ github.actor }}</strong>
               Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
               Repository: <strong>${{ github.repository }}</strong>
