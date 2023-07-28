@@ -9,7 +9,7 @@ public class ServerApplication {
 	public static void main(String[] args) {
 	
 		SpringApplication.run(ServerApplication.class, args);
-		String a = "ABCE";
+		System.out.println("hello 12345567");
 	}
 
 }
