@@ -18,7 +18,4 @@ public class UserController {
     public String hello() {
         return "GET:: Hello User";
     }
-    
-   
-    
 }
