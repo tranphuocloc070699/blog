@@ -94,7 +94,6 @@ jobs:
 
       - name: Check last job status
         id: lastJobStatus
-        run: echo "${{job.status}}"
         if: always() && ${{job.status}}== 'failure'
         uses: appleboy/telegram-action@master
         with:
