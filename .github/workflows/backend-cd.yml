@@ -91,14 +91,9 @@ jobs:
             <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
           format: html
           disable_web_page_preview: true
-
-      - name: print last job status
-        if: always()
-        run: echo "job status is ${{job.status}}"
-
       - name: Check last job status
         id: lastJobStatus
-        if: always() && ${{job.status}}== 'failure'
+        if: ${{always() && failure()}}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
