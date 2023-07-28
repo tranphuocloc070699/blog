@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - server/**
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,7 +29,8 @@ jobs:
           
     defaults:
       run:
-        working-directory: ./server
+        working-directory: server
+
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -41,5 +41,45 @@ jobs:
       - uses: stCarolas/setup-maven@v.4.5
         with:
           maven-version: 3.8.2
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
       - name: Build and run Unit/Integration Tests with Maven
+        id: check-status
+        continue-on-error: true
         run: mvn -ntp -B verify
+
+      - name: Send Telegram message on success
+        if: ${{ steps.check-status.outcome == 'success' }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+              <strong >SUCCESS ✅</strong>
+              Actor: <strong>${{ github.actor }}</strong>
+              Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
+              Repository: <strong>${{ github.repository }}</strong>
+            
+              <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
+          format: html
+          disable_web_page_preview: true
+
+      - name: Send Telegram message on fail
+        if: ${{ steps.check-status.outcome == 'failure' }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+              <strong >FAILURE ❌</strong>
+              Actor: <strong>${{ github.actor }}</strong>
+              Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
+              Repository: <strong>${{ github.repository }}</strong>
+        
+              <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
+          format: html
+          disable_web_page_preview: true

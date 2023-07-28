@@ -46,9 +46,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Generate Build Number
         id: build-number
-        run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.$S')" >> $GITHUB_OUTPUT
+        run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
+
       - name: Build Package with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
       - name: Update Dockerrun.aws.json image tag with new build number
@@ -74,3 +76,39 @@ jobs:
           git add .
           git commit -m "Update Dockerrun.aws.json docker image with new tag ${{steps.build-number.outputs.BUILD_NUMBER}}"
           git push
+
+      - name: Send Telegram message on success
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            <strong>SUCCESS ✅</strong>
+            Actor: <strong>${{ github.actor }}</strong>
+            Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
+            Repository: <strong>${{ github.repository }}</strong>
+            
+            <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
+          format: html
+          disable_web_page_preview: true
+
+  send-telegram-message:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Send Telegram message on fail
+        if: ${{ steps.check-status.outcome == 'failure' }}
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            <strong >FAILURE ❌</strong>
+            Actor: <strong>${{ github.actor }}</strong>
+            Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
+            Repository: <strong>${{ github.repository }}</strong>
+            
+            <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
+          format: html
+          disable_web_page_preview: true

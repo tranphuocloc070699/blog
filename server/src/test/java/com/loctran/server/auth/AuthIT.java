@@ -81,6 +81,7 @@ class AuthIT {
             .body(Mono.just(requestCustomer), User.class)
             .exchange()
             .expectStatus()
+//            .isOk();
             .isBadRequest();
   }
   
