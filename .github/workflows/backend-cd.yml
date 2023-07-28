@@ -91,16 +91,17 @@ jobs:
             <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
           format: html
           disable_web_page_preview: true
-      - name: Check last job status
-        id: lastJobStatus
-        continue-on-error: true
-        if: ${{always() && failure()}}
-        run: |
-          echo "Job status is ${{ job.status }}"
-          echo "error_message=$(tail -n 10000 ${{ github.workspace }}/path/to/your/log/file.log)" >> $GITHUB_OUTPUT
+#      - name: Check last job status
+#        id: lastJobStatus
+#        continue-on-error: true
+#        if: ${{always() && failure()}}
+#        run: |
+#          echo "Job status is ${{ job.status }}"
+#          echo "error_message=$(tail -n 10000 ${{ github.workspace }}/path/to/your/log/file.log)" >> $GITHUB_OUTPUT
         
 
       - name: Send message whenever job fail
+        if: ${{always() && failure()}}
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_BLOG_CHANEL_ID }}
@@ -110,8 +111,7 @@ jobs:
             Actor: <strong>${{ github.actor }}</strong>
             Branch: <strong>${{ steps.extract_branch.outputs.branch }}</strong>
             Repository: <strong>${{ github.repository }}</strong>
-            Message: <pre>${{ steps.lastJobStatus.outputs.error_message }}</pre>
-
-
+            
+            <a href="https://github.com/${{ github.repository }}/commit/${{github.sha}}"><strong>Open URL</strong></a>
           format: html
           disable_web_page_preview: true
