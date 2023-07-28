@@ -92,6 +92,26 @@ jobs:
           format: html
           disable_web_page_preview: true
 
+      - name: Check last job status
+        id: lastJobStatus
+        if: always()
+        run: |
+          LAST_JOB_STATUS=$(gh run list --workflow backend-cd.yaml | grep -oh "completed.*" | head -1 | awk '{print $2}')
+          THIS_JOB_STATUS="${{ job.status }}"
+          if [ "$LAST_JOB_STATUS" != "$THIS_JOB_STATUS" ]; then
+            echo "status changed from $LAST_JOB_STATUS to $THIS_JOB_STATUS"
+            echo "::set-output name=changedState::true"
+            echo "::set-output name=stateMessage::Test status changed from '$LAST_COMPLETED_JOB_STATUS' to '$THIS_JOB_STATUS'."
+          else
+            echo "status is still $THIS_JOB_STATUS"
+            echo "::set-output name=changedState::false"
+            echo "::set-output name=stateMessage::$THIS_JOB_STATUS"
+          fi
+
+      - name: Showcase output variable
+        if: always() && steps.lastJobStatus.outputs.changedState == 'true'
+        run: echo "CHANGED STATE!!!"
+
   send-telegram-message:
     needs: deploy
     runs-on: ubuntu-latest
