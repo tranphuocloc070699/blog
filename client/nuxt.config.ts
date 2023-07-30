@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   runtimeConfig: {
-    BASE_URL_SERVER: process.env.BASE_URL_SERVER,
-    BASE_URL_CLIENT: process.env.BASE_URL_CLIENT,
+    BASE_URL_SERVER: process.env.BASE_URL_SERVER || 'http://localhost:4000',
+    BASE_URL_CLIENT: process.env.BASE_URL_CLIENT || 'http://localhost:4000',
     COOKIE_NAME: process.env.COOKIE_NAME,
   },
   $meta: {
@@ -50,6 +50,6 @@ export default defineNuxtConfig({
     "~/assets/css/prism.css",
   ],
   devServer: {
-    port: 4567,
+    port: 4000,
   },
 });

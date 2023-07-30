@@ -19,6 +19,7 @@ export default defineEventHandler(async (event) => {
   event.node.res.statusCode = HttpStatusCode.FORBIDDEN.code;
   return cookieNotFoundError
  }
+ console.log(config.BASE_URL_SERVER)
  return axios
     .get(`${config.BASE_URL_SERVER}/api/v1/auth/authenticate`, {
       headers: {

@@ -3,13 +3,25 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
+      "name": "blog-client",
+      "image": "loctran070699/blog-client:latest",
+      "essential": true,
+      "memory": 216,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 3000
+        }
+      ]
+    },
+    {
       "name": "blog-api",
-      "image": "loctran070699/blog-api:26.07.2023.09.16",
+      "image": "loctran070699/blog-api:28.07.2023.04.22.20",
       "essential": true,
       "memory": 512,
       "portMappings": [
         {
-          "hostPort": 80,
+          "hostPort": 4000,
           "containerPort": 4000
         }
       ],
@@ -20,5 +32,6 @@
         }
       ]
     }
+   
   ]
 }

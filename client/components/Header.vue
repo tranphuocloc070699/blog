@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="bg-gradient-to-r from-blue_739 to-blue_557 py-2">
+      {{ env }}
       <ClientOnly>
         <div
         v-if="authStore.auth.logged"
@@ -41,4 +42,9 @@
 import { useAuthStore } from "~/stores/auth.store";
 
 const authStore = useAuthStore();
+
+const env = ref('');
+onMounted(() =>{
+  env.value = process.env.BASE_URL_SERVER || "none";
+})
 </script>
